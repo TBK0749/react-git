@@ -10,6 +10,11 @@ import {
 import StudentDetails from './pages/StudentDetails';
 import Students from './pages/Students';
 import Home from './pages/Home';
+import Summary from "./pages/Summary";
+
+// 1. คลิก link Students
+// 2. React router library พาเราไปที่ /students
+// 3. ทุกที่ ที่มี switch อยู่ใน Router จะทำการเช็คว่ามันต้อง render Route ไหน
 
 function App() {
   return (
@@ -23,11 +28,17 @@ function App() {
             <div className="menu__item">
               <Link to="/students">Students</Link>
             </div>
+            <div className="menu__item">
+              <Link to="/summary">Summary</Link>
+            </div>
           </div>
 
           <div className="content">
             <Switch>
-              <Route exact path="/students/:id">
+              <Route exact path="/summary">
+                <Summary />
+              </Route>
+              <Route exact path="/students/:studentId">
                 <StudentDetails />
               </Route>
               <Route exact path="/students">
