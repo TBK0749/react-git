@@ -1,16 +1,13 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { students } from "../data/students";
+import { StudentsContext } from "../context/StudentsContext";
 
 
 // 1. ไฟล์นี้ถูก render
 // 2. React router พบว่ามี switch มันเลยทำการเช็ค path ปัจจุบันคือ /students
 
 export default function Students() {
-  useEffect(() => {
-    // Get student from '../data/students'
-    console.log(students);
-  }, []);
+  const { students, setStudents } = useContext(StudentsContext);
 
   return (
     <div>
