@@ -18,9 +18,9 @@ export default function Students() {
 
   const rows = [...students].map((student, id) => (
     <tr key={id}>
-      <td>{student.id}</td>
-      <td><Link to={`/students/${student.id}`}>{student.name}</Link></td>
-      <td>
+      <td className="w-8">{student.id}</td>
+      <td className="w-60"><Link to={`/students/${student.id}`}>{student.name}</Link></td>
+      <td className="w-40">
         <Link to={`/students/${student.id}/edit`}>
           <Button className="mr-1" variant="default" color="red" >
             Edit
@@ -62,9 +62,9 @@ export default function Students() {
         <Table>
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Actions</th>
+              <th className="w-6">ID</th>
+              <th className="w-60">Name</th>
+              <th className="w-40">Actions</th>
             </tr>
           </thead>
           <tbody>{rows}</tbody>
