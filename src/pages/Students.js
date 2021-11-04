@@ -7,9 +7,14 @@ import { Button, Table, } from '@mantine/core';
 // 1. ไฟล์นี้ถูก render
 // 2. React router พบว่ามี switch มันเลยทำการเช็ค path ปัจจุบันคือ /students
 
+// Bugs
+// 1. Can't create new student after removed all the student in the students array
+
+// Requirement does not complete
+// 1. The app didn't ask the user to confirm when delete
+
 export default function Students() {
   const { students, setStudents } = useContext(StudentsContext);
-
 
   const rows = [...students].map((student, id) => (
     <tr key={id}>
@@ -26,13 +31,17 @@ export default function Students() {
           value={student.id}
           onClick={() => {
 
-            const cloneStudents = [...students];
-            const findId = (element) => element.id === student.id;
-            const startDelete = cloneStudents.findIndex(findId);
-            cloneStudents.splice(startDelete, 1);
+            const result = window.confirm('Do you want to delete?');
 
-            setStudents(cloneStudents);
+            if (result) {
+              const cloneStudents = [...students];
+              const findId = (element) => element.id === student.id;
+              const startDelete = cloneStudents.findIndex(findId);
+              cloneStudents.splice(startDelete, 1);
 
+              setStudents(cloneStudents);
+            }
+            console.log(result);
           }}
         >Delete</Button>
       </td>

@@ -56,8 +56,6 @@ export default function EditStudents() {
                 editStudent.setFieldValue('name', "");
                 editStudent.setFieldValue('bio', "");
 
-
-
                 console.log(student.id)
             })}>
                 <h1 className="my-4 text-3xl flex justify-center">Edit Student</h1>

@@ -1,5 +1,4 @@
 import { useParams } from "react-router";
-import { students } from "../data/students";
 import { StudentsContext } from "../context/StudentsContext";
 import { useContext } from "react";
 

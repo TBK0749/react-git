@@ -47,10 +47,15 @@ export default function CreateStudents() {
                     >Back</Button>
                     <Button
                         onClick={() => {
+                            // 1. ให้ default id เป็น 1
+                            let id = 1;
+                            
+                            // 2. ถ้า students array มีอย่างน้อย 1 element
+                            if(students.length !== 0) {
+                                // 3. ให้เซ็ต id เป็น id ของตัวสุดท้ายใน array
+                                id = students[students.length - 1].id + 1;
+                            }
 
-                            const lastIndex = students.length - 1;
-                            const lastId = students[Number(lastIndex)].id;
-                            const id = lastId + 1;
                             const name = newStudent.values.name;
                             const bio = newStudent.values.bio;
 
