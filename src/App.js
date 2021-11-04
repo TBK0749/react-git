@@ -13,6 +13,7 @@ import Home from './pages/Home';
 import Summary from "./pages/Summary";
 import { StudentsContext } from "./context/StudentsContext";
 import CreateStudents from "./pages/CreateStudents";
+import EditStudents from "./pages/EditStudents";
 
 // 1. คลิก link Students
 // 2. React router library พาเราไปที่ /students
@@ -46,6 +47,9 @@ function App() {
 
             <div className="content">
               <Switch>
+                <Route exact path="/students/:studentId/edit">
+                  <EditStudents />
+                </Route>
                 <Route exact path="/students/create">
                   <CreateStudents />
                 </Route>

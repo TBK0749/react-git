@@ -48,7 +48,9 @@ export default function CreateStudents() {
                     <Button
                         onClick={() => {
 
-                            const id = students.length + 1;
+                            const lastIndex = students.length - 1;
+                            const lastId = students[Number(lastIndex)].id;
+                            const id = lastId + 1;
                             const name = newStudent.values.name;
                             const bio = newStudent.values.bio;
 
@@ -61,7 +63,7 @@ export default function CreateStudents() {
 
                             // router.redirect('/students')
 
-                            console.log(students);
+                            console.log(id);
                         }}
                     >Confirm</Button>
                 </div>
