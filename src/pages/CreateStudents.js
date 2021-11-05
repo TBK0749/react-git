@@ -1,10 +1,20 @@
 import { Textarea, Button, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/hooks';
-import { StudentsContext } from "../context/StudentsContext";
-import { useContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
 
 export default function CreateStudents() {
+    const [students, setStudents] = useState([])
+
+    useEffect(() => {
+
+        axios.get("http://localhost:3001/students").then((res) => {
+            setStudents(res.data);
+        })
+
+    }, [])
+
     const history = useHistory();
     const newStudent = useForm({
         initialValues: {
@@ -19,7 +29,6 @@ export default function CreateStudents() {
         },
     });
 
-    const { students, setStudents } = useContext(StudentsContext);
     const [created, setCreated] = useState(false);
 
     useEffect(() => {
@@ -49,9 +58,9 @@ export default function CreateStudents() {
                         onClick={() => {
                             // 1. ให้ default id เป็น 1
                             let id = 1;
-                            
+
                             // 2. ถ้า students array มีอย่างน้อย 1 element
-                            if(students.length !== 0) {
+                            if (students.length !== 0) {
                                 // 3. ให้เซ็ต id เป็น id ของตัวสุดท้ายใน array
                                 id = students[students.length - 1].id + 1;
                             }

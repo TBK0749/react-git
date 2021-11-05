@@ -1,13 +1,25 @@
 import { Textarea, Button, TextInput } from "@mantine/core";
-import { StudentsContext } from "../context/StudentsContext";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useParams } from "react-router";
 import { useForm } from "@mantine/hooks";
+import axios from "axios";
 
 
 export default function EditStudents() {
-    const { students, setStudents } = useContext(StudentsContext);
+    const [students, setStudents] = useState([])
+
+    useEffect(() => {
+
+        axios.get("http://localhost:3001/students").then((res) => {
+            setStudents(res.data);
+        })
+
+        // editStudent.setFieldValue('name', student.name);
+        // editStudent.setFieldValue('bio', student.bio);
+
+    }, [])
+
     const { studentId } = useParams();
     const student = students.find(student => student.id === Number(studentId));
     const history = useHistory();
@@ -20,11 +32,6 @@ export default function EditStudents() {
 
         history.push('/students');
     }, [edited])
-
-    useEffect(() => {
-        editStudent.setFieldValue('name', student.name);
-        editStudent.setFieldValue('bio', student.bio);
-    }, [])
 
     const editStudent = useForm({
         initialValues: {

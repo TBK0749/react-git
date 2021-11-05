@@ -1,8 +1,7 @@
-import { useContext } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { StudentsContext } from "../context/StudentsContext";
-import { Button, Table, } from '@mantine/core';
-
+import { Button, Table, } from '@mantine/core'
+import axios from "axios";
 
 // 1. ไฟล์นี้ถูก render
 // 2. React router พบว่ามี switch มันเลยทำการเช็ค path ปัจจุบันคือ /students
@@ -14,7 +13,36 @@ import { Button, Table, } from '@mantine/core';
 // 1. The app didn't ask the user to confirm when delete
 
 export default function Students() {
-  const { students, setStudents } = useContext(StudentsContext);
+  const [students, setStudents] = useState([]);
+
+  useEffect(() => {
+
+    axios.get("http://localhost:3001/students").then((res) => {
+      setStudents(res.data);
+    })
+
+  }, [])
+
+  const deleteStudent = (studentId) => {
+    console.log(studentId);
+
+    if (!window.confirm('Do you want to delete?')) {
+      return;
+    }
+
+    axios.delete(`http://localhost:3001/students/${studentId}`)
+      .then(function () {
+        const cloneStudents = [...students];
+        const findId = (element) => element.id === studentId;
+        const startDelete = cloneStudents.findIndex(findId);
+        cloneStudents.splice(startDelete, 1);
+
+        setStudents(cloneStudents);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
 
   const rows = [...students].map((student, id) => (
     <tr key={id}>
@@ -29,25 +57,12 @@ export default function Students() {
         <Button
           color="red"
           value={student.id}
-          onClick={() => {
-
-            const result = window.confirm('Do you want to delete?');
-
-            if (result) {
-              const cloneStudents = [...students];
-              const findId = (element) => element.id === student.id;
-              const startDelete = cloneStudents.findIndex(findId);
-              cloneStudents.splice(startDelete, 1);
-
-              setStudents(cloneStudents);
-            }
-            console.log(result);
-          }}
+          onClick={() => deleteStudent(student.id)}
         >Delete</Button>
       </td>
     </tr>
   ))
-  console.log(students);
+  // console.log();
 
   return (
     <div className="space-y-4">

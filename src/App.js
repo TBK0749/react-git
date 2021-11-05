@@ -11,7 +11,6 @@ import StudentDetails from './pages/StudentDetails';
 import Students from './pages/Students';
 import Home from './pages/Home';
 import Summary from "./pages/Summary";
-import { StudentsContext } from "./context/StudentsContext";
 import CreateStudents from "./pages/CreateStudents";
 import EditStudents from "./pages/EditStudents";
 
@@ -19,17 +18,9 @@ import EditStudents from "./pages/EditStudents";
 // 2. React router library พาเราไปที่ /students
 // 3. ทุกที่ ที่มี switch อยู่ใน Router จะทำการเช็คว่ามันต้อง render Route ไหน
 
-const initialStudents = [
-  { id: 1, name: 'John Doe', bio: 'John is a man' },
-  { id: 2, name: 'Jane Doe', bio: 'Jane is a girl' },
-  { id: 3, name: 'Marie Joshoua', bio: 'Marie is a girl/man' },
-];
-
 function App() {
-  const [students, setStudents] = useState(initialStudents);
 
   return (
-    <StudentsContext.Provider value={{ students, setStudents }}>
       <div className="container">
         <Router>
           <div>
@@ -70,7 +61,6 @@ function App() {
           </div>
         </Router>
       </div>
-    </StudentsContext.Provider>
   );
 }
 

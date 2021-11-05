@@ -1,6 +1,6 @@
 import { useParams } from "react-router";
-import { StudentsContext } from "../context/StudentsContext";
-import { useContext } from "react";
+import axios from "axios";
+import { useState, useEffect } from "react";
 
 // const students = [
 //   {id: 1, name: 'John Doe', bio: 'John is a man'},
@@ -9,7 +9,15 @@ import { useContext } from "react";
 // ];
 
 export default function StudentDetails() {
-  const { students, setStudents } = useContext(StudentsContext);
+  const [students, setStudents] = useState([])
+
+  useEffect(() => {
+
+    axios.get("http://localhost:3001/students").then((res) => {
+      setStudents(res.data);
+    })
+
+  }, [])
   const { studentId } = useParams(); // https://reactrouter.com/web/example/url-params
   const student = students.find(student => student.id === Number(studentId));
 
