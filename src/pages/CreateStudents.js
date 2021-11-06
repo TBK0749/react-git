@@ -5,7 +5,8 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 
 export default function CreateStudents() {
-    const [students, setStudents] = useState([])
+    const [students, setStudents] = useState([]);
+    const [showConfirm, setShowConfirm] = useState(false);
 
     useEffect(() => {
 
@@ -20,7 +21,6 @@ export default function CreateStudents() {
         initialValues: {
             name: '',
             bio: '',
-            showConfirm: false,
         },
 
         validationRules: {
@@ -51,33 +51,29 @@ export default function CreateStudents() {
                 <div className="flex justify-end justify-between">
                     <Button
                         onClick={() => {
-                            newStudent.setFieldValue('showConfirm', false);
+                            setShowConfirm(false);
                         }}
                     >Back</Button>
                     <Button
                         onClick={() => {
-                            // 1. ให้ default id เป็น 1
-                            let id = 1;
 
-                            // 2. ถ้า students array มีอย่างน้อย 1 element
+                            let id = 1;
                             if (students.length !== 0) {
-                                // 3. ให้เซ็ต id เป็น id ของตัวสุดท้ายใน array
                                 id = students[students.length - 1].id + 1;
                             }
+                            const {name, bio} = newStudent.values;
 
-                            const name = newStudent.values.name;
-                            const bio = newStudent.values.bio;
-
-                            setStudents([...students, { id, name, bio }]);
-                            setCreated(true);
-
-                            newStudent.setFieldValue('name', "");
-                            newStudent.setFieldValue('bio', "");
-                            newStudent.setFieldValue('showConfirm', false);
+                            axios.post("http://localhost:3001/students", {
+                                id: id,
+                                name: name,
+                                bio: bio
+                            }).then(() => {
+                                setCreated(true);
+                            }).catch((error) => {
+                                console.log(error);
+                            });
 
                             // router.redirect('/students')
-
-                            console.log(id);
                         }}
                     >Confirm</Button>
                 </div>
@@ -88,9 +84,9 @@ export default function CreateStudents() {
 
     return (
         <div >
-            {newStudent.values.showConfirm ? confirm() :
+            {showConfirm ? confirm() :
                 <form onSubmit={newStudent.onSubmit((values) => {
-                    newStudent.setFieldValue('showConfirm', true);
+                    setShowConfirm(true);
                     return confirm(values);
                 })}>
                     <h1 className="my-4 text-3xl flex justify-center">Create students this here ^^</h1>

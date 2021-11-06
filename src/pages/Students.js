@@ -21,7 +21,7 @@ export default function Students() {
       setStudents(res.data);
     })
 
-  }, [])
+  }, []);
 
   const deleteStudent = (studentId) => {
     console.log(studentId);
@@ -62,7 +62,6 @@ export default function Students() {
       </td>
     </tr>
   ))
-  // console.log();
 
   return (
     <div className="space-y-4">

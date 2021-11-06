@@ -5,38 +5,14 @@ import { useParams } from "react-router";
 import { useForm } from "@mantine/hooks";
 import axios from "axios";
 
-
 export default function EditStudents() {
-    const [students, setStudents] = useState([])
-
-    useEffect(() => {
-
-        axios.get("http://localhost:3001/students").then((res) => {
-            setStudents(res.data);
-        })
-
-        // editStudent.setFieldValue('name', student.name);
-        // editStudent.setFieldValue('bio', student.bio);
-
-    }, [])
-
     const { studentId } = useParams();
-    const student = students.find(student => student.id === Number(studentId));
     const history = useHistory();
     const [edited, setEdited] = useState(false);
-
-    useEffect(() => {
-        if (!edited) {
-            return;
-        }
-
-        history.push('/students');
-    }, [edited])
-
     const editStudent = useForm({
         initialValues: {
-            name: '',
-            bio: '',
+            name: "",
+            bio: "",
         },
 
         validationRules: {
@@ -45,25 +21,43 @@ export default function EditStudents() {
         },
     });
 
+    useEffect(() => {
+
+        axios.get(`http://localhost:3001/students/${studentId}`).then((res) => {
+            editStudent.setFieldValue('name', res.data.name);
+            editStudent.setFieldValue('bio', res.data.bio);
+        }).catch((error) => {
+            console.log(error);
+        });
+
+    }, [])
+
+    useEffect(() => {
+        if (!edited) {
+            return;
+        }
+        
+        history.push('/students');
+    }, [edited])
+
 
     return (
         <div>
             <form onSubmit={editStudent.onSubmit(() => {
+                if (!window.confirm('Do you want to edit student ?')) {
+                    return;
+                }
                 const { name, bio } = editStudent.values;
-                const edited = { id: student.id, name, bio };
 
-                const cloneStudents = [...students];
-                const findId = (element) => element.id === student.id;
-                const editToIndex = cloneStudents.findIndex(findId);
-                cloneStudents.splice(editToIndex, 1, edited);
+                axios.put(`http://localhost:3001/students/${studentId}`, {
+                    name: name,
+                    bio: bio
+                }).then(() => {
+                    setEdited(true);
+                }).catch((error) => {
+                    console.log(error);
+                })
 
-                setStudents(cloneStudents);
-                setEdited(true);
-
-                editStudent.setFieldValue('name', "");
-                editStudent.setFieldValue('bio', "");
-
-                console.log(student.id)
             })}>
                 <h1 className="my-4 text-3xl flex justify-center">Edit Student</h1>
                 <div className="my-4">
