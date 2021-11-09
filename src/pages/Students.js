@@ -31,7 +31,7 @@ export default function Students() {
     }
 
     axios.delete(`http://localhost:3001/students/${studentId}`)
-      .then(function () {
+      .then(() => {
         const cloneStudents = [...students];
         const findId = (element) => element.id === studentId;
         const startDelete = cloneStudents.findIndex(findId);
@@ -39,7 +39,7 @@ export default function Students() {
 
         setStudents(cloneStudents);
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log(error);
       });
   }
